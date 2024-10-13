@@ -33,6 +33,7 @@ html{
       text-transform: uppercase;
       text-align: center;
       color: var(--accent-color);
+      user-select: none;
   }
   .wrapper{
       width: 700px;
@@ -86,6 +87,7 @@ html{
     padding-right: 0;
     flex-grow: 1;
     transition: 200ms ease;
+    user-select: none;
 }
 .delete-button{
     padding: 3px;

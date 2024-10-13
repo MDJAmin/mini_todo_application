@@ -5,7 +5,10 @@ const todoListUL = document.querySelector('#todo-list');
 let allTodos = getTodos();
 updateTodoList();
 
-
+todoForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    addTodo()
+})
 
 function addTodo(){
     const todoText = todoInput.value.trim();
