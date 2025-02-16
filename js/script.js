@@ -3,6 +3,7 @@
 const todoForm = document.querySelector("form");
 const todoInput = document.querySelector("#todo-input");
 const todoListUL = document.querySelector("#todo-list");
+let draggedItem = null;
 
 let allTodos = getTodos();
 updateTodoList();
@@ -37,6 +38,7 @@ function createTodoItem(todo, todoIndex) {
   const todoLI = document.createElement("li");
   const todoText = todo.text;
   todoLI.className = "todo";
+  todoLI.draggable = true;
   todoLI.innerHTML = `
         <input type="checkbox" id="${todoId}">
         <label class="custom-checkbox" for="${todoId}">
@@ -59,6 +61,39 @@ function createTodoItem(todo, todoIndex) {
     saveTodos();
   });
   checkbox.checked = todo.completed;
+
+  todoLI.addEventListener("dragstart", (e) => {
+    draggedItem = todoLI;
+    setTimeout(() => {
+      todoLI.style.opacity = "0.5";
+    }, 0);
+  });
+
+  todoLI.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  todoLI.addEventListener("drop", (e) => {
+    e.preventDefault();
+    if (draggedItem !== todoLI) {
+      let children = [...todoListUL.children];
+      let draggedIndex = children.indexOf(draggedItem);
+      let targetIndex = children.indexOf(todoLI);
+
+      // Reorder the array
+      const [movedTodo] = allTodos.splice(draggedIndex, 1);
+      allTodos.splice(targetIndex, 0, movedTodo);
+
+      saveTodos();
+      updateTodoList();
+    }
+  });
+
+  todoLI.addEventListener("dragend", () => {
+    draggedItem.style.opacity = "1";
+  });
+
+
   return todoLI;
 }
 function deleteTodoItem(todoIndex) {
