@@ -93,7 +93,6 @@ function createTodoItem(todo, todoIndex) {
     draggedItem.style.opacity = "1";
   });
 
-
   return todoLI;
 }
 function deleteTodoItem(todoIndex) {
